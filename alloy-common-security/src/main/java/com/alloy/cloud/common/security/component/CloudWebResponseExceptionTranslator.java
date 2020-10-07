@@ -41,7 +41,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
  * @since 2019/2/1 异常处理,重写oauth 默认实现
  */
 @Slf4j
-public class CloudWebResponseExceptionTranslator implements WebResponseExceptionTranslator {
+public class CloudWebResponseExceptionTranslator implements WebResponseExceptionTranslator<OAuth2Exception> {
 
 	private ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();
 
