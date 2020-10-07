@@ -26,11 +26,11 @@ public interface ServiceNameConstants {
 	/**
 	 * 认证服务
 	 */
-	String AUTH_SERVICE = "cloud-auth";
+	String AUTH_SERVICE = "alloy-auth";
 
 	/**
 	 * 用户中心
 	 */
-	String UMPS_SERVICE = "cloud-ucenter";
+	String UMPS_SERVICE = "alloy-ucenter";
 
 }
