@@ -104,7 +104,7 @@ public interface SecurityConstants {
 	/**
 	 * 用户部门字段
 	 */
-	String DETAILS_DEPT_ID = "dept_id";
+	String DETAILS_ORG_CODE = "org_code";
 
 	/**
 	 * 协议字段

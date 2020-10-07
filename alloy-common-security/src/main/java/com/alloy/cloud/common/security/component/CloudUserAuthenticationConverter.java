@@ -69,9 +69,8 @@ public class CloudUserAuthenticationConverter implements UserAuthenticationConve
 			Collection<? extends GrantedAuthority> authorities = getAuthorities(map);
 
 			String username = (String) map.get(SecurityConstants.DETAILS_USERNAME);
-			Integer id = (Integer) map.get(SecurityConstants.DETAILS_USER_ID);
-			Integer deptId = (Integer) map.get(SecurityConstants.DETAILS_DEPT_ID);
-			CloudUser user = new CloudUser(id, deptId, username, N_A, true, true, true, true, authorities);
+			Integer orgCode = (Integer) map.get(SecurityConstants.DETAILS_ORG_CODE);
+			CloudUser user = new CloudUser(orgCode, username, N_A, true, true, true, true, authorities);
 			return new UsernamePasswordAuthenticationToken(user, N_A, authorities);
 		}
 		return null;
