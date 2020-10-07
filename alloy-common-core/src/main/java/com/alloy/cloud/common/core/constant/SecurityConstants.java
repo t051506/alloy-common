@@ -32,7 +32,7 @@ public interface SecurityConstants {
 	/**
 	 * 前缀
 	 */
-	String PROJECT_PREFIX = "pig_";
+	String PROJECT_PREFIX = "alloy_";
 
 	/**
 	 * 项目的license
