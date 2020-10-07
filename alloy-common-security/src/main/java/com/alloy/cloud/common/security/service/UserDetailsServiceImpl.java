@@ -22,6 +22,7 @@ import com.alloy.cloud.common.core.base.R;
 import com.alloy.cloud.common.core.constant.CacheConstants;
 import com.alloy.cloud.common.core.constant.CommonConstants;
 import com.alloy.cloud.common.core.constant.SecurityConstants;
+import com.alloy.cloud.common.core.util.SpringContextUtils;
 import com.alloy.cloud.ucenter.api.dto.RemoteUser;
 import com.alloy.cloud.ucenter.api.feign.RemoteUserService;
 import lombok.RequiredArgsConstructor;
@@ -51,8 +52,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final RemoteUserService remoteUserService;
 
-    private final RedisTemplate<String,Object> redisTemplate;
-
     /**
      * 用户密码登录
      *
@@ -62,6 +61,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @SneakyThrows
     public UserDetails loadUserByUsername(String username) {
+
+        RedisTemplate redisTemplate = SpringContextUtils.getBean(RedisTemplate.class);
+
         Object cache = redisTemplate.opsForValue().get(CacheConstants.USER_DETAILS + username);
 
         if (cache != null) {
