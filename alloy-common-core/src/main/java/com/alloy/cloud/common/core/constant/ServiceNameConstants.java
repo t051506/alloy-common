@@ -15,7 +15,6 @@
  *  * limitations under the License.
  *
  */
-
 package com.alloy.cloud.common.core.constant;
 
 /**
@@ -25,13 +24,13 @@ package com.alloy.cloud.common.core.constant;
 public interface ServiceNameConstants {
 
 	/**
-	 * 认证服务的SERVICEID
+	 * 认证服务
 	 */
 	String AUTH_SERVICE = "cloud-auth";
 
 	/**
-	 * UMPS模块
+	 * 用户中心
 	 */
-	String UMPS_SERVICE = "cloud-upms-biz";
+	String UMPS_SERVICE = "cloud-ucenter";
 
 }
