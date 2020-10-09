@@ -22,13 +22,13 @@ import com.alloy.cloud.common.core.base.R;
 import com.alloy.cloud.common.core.constant.CacheConstants;
 import com.alloy.cloud.common.core.constant.CommonConstants;
 import com.alloy.cloud.common.core.constant.SecurityConstants;
-import com.alloy.cloud.common.core.util.SpringContextUtils;
 import com.alloy.cloud.ucenter.api.dto.RemoteUser;
 import com.alloy.cloud.ucenter.api.feign.RemoteUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -52,6 +52,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final RemoteUserService remoteUserService;
 
+    private final CacheManager cacheManager;
+
     /**
      * 用户密码登录
      *
@@ -61,17 +63,25 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @SneakyThrows
     public UserDetails loadUserByUsername(String username) {
+//        Object cache = redisTemplate.opsForValue().get(CacheConstants.USER_DETAILS + username);
+//
+//        if (cache != null) {
+//            return (CloudUser) cache;
+//        }
+//        R<RemoteUser> result = remoteUserService.loadByUsername(SecurityConstants.FROM_IN, username);
+//        UserDetails userDetails = getUserDetails(result);
+//        redisTemplate.opsForValue().set(CacheConstants.USER_DETAILS + username,userDetails);
+//        return userDetails;
 
-        RedisTemplate redisTemplate = SpringContextUtils.getBean(RedisTemplate.class);
-
-        Object cache = redisTemplate.opsForValue().get(CacheConstants.USER_DETAILS + username);
-
-        if (cache != null) {
-            return (CloudUser) cache;
+        Cache cache = cacheManager.getCache(CacheConstants.USER_DETAILS);
+        if (cache != null && cache.get(username) != null) {
+            return (CloudUser) cache.get(username).get();
         }
-        R<RemoteUser> result = remoteUserService.loadByUsername(SecurityConstants.FROM_IN, username);
-        UserDetails userDetails = getUserDetails(result);
-        redisTemplate.opsForValue().set(CacheConstants.USER_DETAILS + username,userDetails);
+		R<RemoteUser> result = remoteUserService.loadByUsername(SecurityConstants.FROM_IN, username);
+		UserDetails userDetails = getUserDetails(result);
+        if (cache != null) {
+            cache.put(username, userDetails);
+        }
         return userDetails;
     }
 

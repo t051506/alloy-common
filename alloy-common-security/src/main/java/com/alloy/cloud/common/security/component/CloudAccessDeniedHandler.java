@@ -40,7 +40,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 
 /**
- * @author tn_kec 授权拒绝处理器，覆盖默认的OAuth2AccessDeniedHandler 包装失败信息到PigDeniedException
+ * @author tn_kec 授权拒绝处理器，覆盖默认的OAuth2AccessDeniedHandler 包装失败信息到CloudDeniedException
  */
 @Slf4j
 @Component
