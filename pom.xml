@@ -18,6 +18,7 @@
     <modules>
         <module>alloy-common-core</module>
         <module>alloy-common-security</module>
+        <module>alloy-common-sentinel</module>
     </modules>
 
     <dependencies>
