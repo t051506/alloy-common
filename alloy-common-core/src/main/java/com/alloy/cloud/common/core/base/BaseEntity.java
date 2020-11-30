@@ -1,14 +1,13 @@
 package com.alloy.cloud.common.core.base;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-/**
- * 实体基类
- */
-@Data
+@Getter
+@Setter
 public class BaseEntity implements Serializable {
     private String createBy;
     private LocalDateTime createTime;
