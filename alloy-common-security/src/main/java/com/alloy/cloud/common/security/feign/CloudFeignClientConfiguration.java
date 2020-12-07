@@ -40,4 +40,8 @@ public class CloudFeignClientConfiguration {
 		return new CloudFeignClientInterceptor(oAuth2ClientContext, resource, accessTokenContextRelay);
 	}
 
+//	@Bean
+//	public RequestInterceptor getUserFeignClientInterceptor() {
+//		return new UserFeignClientInterceptor();
+//	}
 }
