@@ -12,15 +12,19 @@
     <artifactId>alloy-common-security</artifactId>
 
     <dependencies>
+        <!--core核心包-->
         <dependency>
             <groupId>com.alloy.cloud</groupId>
             <artifactId>alloy-common-core</artifactId>
             <version>1.0.0-SNAPSHOT</version>
+            <optional>true</optional>
         </dependency>
+
+
         <dependency>
-            <groupId>com.alloy.cloud</groupId>
-            <artifactId>alloy-ucenter-api</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <optional>true</optional>
         </dependency>
         <!--安全模块-->
         <dependency>
@@ -30,9 +34,17 @@
         <dependency>
             <groupId>org.springframework.security.oauth.boot</groupId>
             <artifactId>spring-security-oauth2-autoconfigure</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.security</groupId>
+                    <artifactId>spring-security-config</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.security</groupId>
+                    <artifactId>spring-security-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-
-
     </dependencies>
 
 

@@ -6,6 +6,10 @@ import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * @Author: tankechao
+ * @Date: 2020/12/14 13:16
+ */
 public class BaseServiceImpl<ID extends Serializable, T extends BaseEntity> implements BaseService<ID, T> {
     @Resource
     private BaseMapper<ID, T> baseMapper;
@@ -17,13 +21,13 @@ public class BaseServiceImpl<ID extends Serializable, T extends BaseEntity> impl
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+//    @Transactional(rollbackFor = Exception.class)
     public boolean deleteById(ID id) {
         return baseMapper.deleteById(id);
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+//    @Transactional(rollbackFor = Exception.class)
     public boolean update(T u) {
         return baseMapper.update(u);
     }

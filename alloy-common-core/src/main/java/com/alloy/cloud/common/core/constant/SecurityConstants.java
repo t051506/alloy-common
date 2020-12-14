@@ -97,7 +97,7 @@ public interface SecurityConstants {
 	String DETAILS_USER_ID = "user_id";
 
 	/**
-	 * 用户名字段
+	 * 账户名字段
 	 */
 	String DETAILS_USERNAME = "username";
 
