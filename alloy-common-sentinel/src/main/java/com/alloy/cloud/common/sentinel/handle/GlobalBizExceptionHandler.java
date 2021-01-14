@@ -1,12 +1,15 @@
 package com.alloy.cloud.common.sentinel.handle;
 
+import cn.hutool.core.collection.CollUtil;
 import com.alibaba.csp.sentinel.Tracer;
 import com.alloy.cloud.common.core.base.R;
+import com.alloy.cloud.common.core.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.SpringSecurityMessageSource;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -14,7 +17,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -82,4 +89,37 @@ public class GlobalBizExceptionHandler {
 		return R.failed(fieldErrors.get(0).getDefaultMessage());
 	}
 
+	@ExceptionHandler({ConstraintViolationException.class})
+	public R bodyValidExceptionHandler(ConstraintViolationException e) {
+		log.warn(e.getMessage(), e);
+		Set<ConstraintViolation<?>> set = e.getConstraintViolations();
+		if (CollUtil.isEmpty(set)) {
+			return R.failed();
+		} else {
+			String error = "";
+			Iterator var4 = set.iterator();
+
+			while (var4.hasNext()) {
+				ConstraintViolation constraintViolation = (ConstraintViolation) var4.next();
+				if (StringUtils.isEmpty(error)) {
+					error = constraintViolation.getMessageTemplate();
+				} else {
+					error = error + ";" + constraintViolation.getMessageTemplate();
+				}
+			}
+
+			return R.failed(error);
+		}
+	}
+
+	@ExceptionHandler({BusinessException.class})
+	public R exception(BusinessException e) {
+		log.error("全局业务异常 ex={}", e.getMessage(), e);
+		String msg = e.getMessage();
+		if (StringUtils.isEmpty(msg)) {
+			msg = "系统业务异常，请稍后再试";
+		}
+		Tracer.trace(e);
+		return R.failed("999", msg);
+	}
 }
